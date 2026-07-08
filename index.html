@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>이번주 토요일, 데이트 할래?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #3b2b18;
@@ -15,8 +15,6 @@
     --gold: #b0863f;
     --paper: #ecdcb0;
     --paper-dark: #ddc691;
-    --bg-top: #efe3c0;
-    --bg-bottom: #f8f2e2;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +25,7 @@
     height: 100%;
     overflow: hidden;
     font-family: 'Nanum Myeongjo', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
-    background: radial-gradient(circle at 50% 20%, var(--bg-top) 0%, var(--bg-bottom) 70%);
+    background: radial-gradient(circle at 50% 30%, #3d2b17 0%, #1a1109 78%);
     touch-action: manipulation;
   }
 
@@ -60,8 +58,6 @@
     width: min(320px, 82vw);
     height: min(260px, 66vw);
     cursor: pointer;
-    -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 100%);
-    mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 100%);
   }
 
   #canvas-container canvas {
@@ -71,10 +67,10 @@
   }
 
   .hint {
-    margin-top: 10px;
+    margin-top: 14px;
     font-family: 'Song Myung', serif;
     font-size: 14px;
-    color: var(--ink-soft);
+    color: #d9c69a;
     letter-spacing: 0.04em;
     transition: opacity 0.3s ease;
   }
@@ -83,70 +79,112 @@
     opacity: 0;
   }
 
-  /* ---------- letter ---------- */
+  /* ---------- full-screen letter ---------- */
   .letter {
-    position: absolute;
-    width: 100%;
-    max-width: 380px;
-    padding: 0 24px;
+    position: fixed;
+    inset: 0;
     opacity: 0;
-    transform: translateY(50px) rotate(0deg);
     pointer-events: none;
-    transition: opacity 0.55s ease 0.15s, transform 0.55s cubic-bezier(.2,.8,.3,1) 0.15s;
+    transition: opacity 0.6s ease 0.15s;
   }
 
   .letter.show {
     opacity: 1;
-    transform: translateY(0) rotate(-0.6deg);
     pointer-events: auto;
   }
 
   .letter-page {
     position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 26px;
     background:
-      radial-gradient(ellipse at 15% 10%, rgba(176, 134, 63, 0.16), transparent 45%),
-      radial-gradient(ellipse at 85% 90%, rgba(176, 134, 63, 0.16), transparent 45%),
-      radial-gradient(ellipse at 80% 15%, rgba(122, 90, 40, 0.1), transparent 40%),
+      radial-gradient(ellipse at 12% 8%, rgba(176, 134, 63, 0.14), transparent 40%),
+      radial-gradient(ellipse at 88% 92%, rgba(176, 134, 63, 0.14), transparent 40%),
+      radial-gradient(ellipse at 80% 12%, rgba(122, 90, 40, 0.09), transparent 38%),
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 40px,
+        rgba(122, 90, 40, 0.15) 41px
+      ),
       linear-gradient(160deg, var(--paper) 0%, var(--paper-dark) 100%);
-    padding: 40px 30px 34px;
-    text-align: center;
-    box-shadow:
-      0 22px 45px rgba(60, 40, 15, 0.28),
-      inset 0 0 40px rgba(122, 90, 40, 0.18);
-    border: 1px solid rgba(122, 90, 40, 0.35);
-    clip-path: polygon(
-      1% 3%, 12% 0%, 28% 1.5%, 45% 0%, 63% 1.2%, 80% 0%, 97% 2%, 100% 12%,
-      99% 30%, 100% 48%, 98.5% 66%, 100% 84%, 98% 97%, 85% 100%, 68% 98.5%,
-      50% 100%, 33% 98.7%, 15% 100%, 2% 97%, 0% 82%, 1.5% 64%, 0% 46%, 1.2% 28%, 0% 12%
-    );
+    box-shadow: inset 0 0 90px rgba(60, 40, 15, 0.28);
   }
 
-  .letter-page.result {
-    display: none;
-  }
-
-  .letter-page.result.show {
-    display: block;
+  .letter-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 60px 10px rgba(20, 12, 4, 0.35);
+    pointer-events: none;
   }
 
   .corner {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    opacity: 0.55;
+    width: 34px;
+    height: 34px;
+    opacity: 0.5;
     pointer-events: none;
+    z-index: 2;
   }
   .corner svg { width: 100%; height: 100%; }
-  .corner.tl { top: 10px; left: 10px; }
-  .corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
-  .corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
-  .corner.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+  .corner.tl { top: 14px; left: 14px; }
+  .corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
+  .corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+  .corner.br { bottom: 14px; right: 14px; transform: scale(-1, -1); }
+
+  .salutation {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 26px;
+    color: var(--ink);
+    text-align: left;
+    padding: 4px 6px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .signature {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 28px;
+    color: var(--ink);
+    text-align: right;
+    padding: 0 6px 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .letter-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+  }
+
+  .letter-content {
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .letter-content.result {
+    display: none;
+  }
+
+  .letter-content.result.show {
+    display: block;
+  }
 
   h1 {
     font-family: 'Song Myung', 'Nanum Myeongjo', serif;
-    font-size: 24px;
+    font-size: clamp(22px, 6vw, 30px);
     color: var(--ink);
-    margin: 0 0 6px;
+    margin: 0 0 8px;
     line-height: 1.55;
     font-weight: 400;
     text-shadow: 0 1px 0 rgba(255,255,255,0.3);
@@ -161,8 +199,8 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 66%;
-    margin: 12px auto 20px;
+    width: 60%;
+    margin: 14px auto 24px;
   }
   .divider span {
     flex: 1;
@@ -236,7 +274,7 @@
     position: fixed;
     z-index: 999;
     background: var(--paper);
-    transition: top 0.28s cubic-bezier(.2,.9,.3,1.3), left 0.28s cubic-bezier(.2,.9,.3,1.3);
+    transition: top 0.22s cubic-bezier(.2,.9,.3,1.3), left 0.22s cubic-bezier(.2,.9,.3,1.3);
   }
 
   .escape-count {
@@ -257,39 +295,41 @@
   </div>
 
   <div class="letter" id="letter">
-    <div class="letter-page" id="mainCard">
+    <div class="letter-page">
       <div class="corner tl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
       <div class="corner tr"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
       <div class="corner bl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
       <div class="corner br"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
 
-      <h1>이번 주 <span>토요일</span>,<br>나랑 데이트 할래?</h1>
-      <div class="divider"><span></span><i></i><span class="right"></span></div>
-      <p class="sub">용기 내서 물어봐요.<br>솔직한 마음으로 골라줘요.</p>
+      <div class="salutation">To. 옌이에게</div>
 
-      <div class="button-zone" id="buttonZone">
-        <button class="choice" id="likeBtn" onclick="onLike()">좋아</button>
-        <button class="choice" id="dislikeBtn" onmouseenter="dodge(this)" ontouchstart="dodgeTouch(event, this)" onclick="return false;">싫어</button>
+      <div class="letter-body">
+        <div class="letter-content" id="mainCard">
+          <h1>이번 주 <span>토요일</span>에,<br>용인에서 데이트 할래?</h1>
+          <div class="divider"><span></span><i></i><span class="right"></span></div>
+          <p class="sub">용기 내서 물어봐요.<br>솔직한 마음으로 골라줘요.</p>
+
+          <div class="button-zone" id="buttonZone">
+            <button class="choice" id="likeBtn" onclick="onLike()">좋아</button>
+            <button class="choice" id="dislikeBtn" onpointerdown="dodgePointer(event, this)" onclick="moveButton(this); return false;">싫어</button>
+          </div>
+
+          <div class="escape-count" id="escapeMsg"></div>
+        </div>
+
+        <div class="letter-content result" id="resultCard">
+          <h1>좋아! 이번 주 <span>토요일</span><br>용인에서 만나요</h1>
+          <div class="divider"><span></span><i></i><span class="right"></span></div>
+          <p class="sub">기대할게요, 예쁘게 꾸미고 나올게요.<br>시간은 따로 말해줘요.</p>
+        </div>
       </div>
 
-      <div class="escape-count" id="escapeMsg"></div>
-    </div>
-
-    <div class="letter-page result" id="resultCard">
-      <div class="corner tl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
-      <div class="corner tr"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
-      <div class="corner bl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
-      <div class="corner br"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
-
-      <h1>좋아! 이번 주 <span>토요일</span><br>만나요</h1>
-      <div class="divider"><span></span><i></i><span class="right"></span></div>
-      <p class="sub">기대할게요, 예쁘게 꾸미고 나올게요.<br>시간이랑 장소는 따로 말해줘요.</p>
+      <div class="signature">From. 동동</div>
     </div>
   </div>
 </div>
 
 <script>
-  const dislikeBtn = document.getElementById('dislikeBtn');
   const likeBtn = document.getElementById('likeBtn');
   const escapeMsg = document.getElementById('escapeMsg');
   let dodgeCount = 0;
@@ -330,11 +370,7 @@
     likeBtn.style.transform = `scale(${scale})`;
   }
 
-  function dodge(btn) {
-    moveButton(btn);
-  }
-
-  function dodgeTouch(e, btn) {
+  function dodgePointer(e, btn) {
     e.preventDefault();
     moveButton(btn);
   }
@@ -345,20 +381,8 @@
   }
 </script>
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
-
 <script type="module">
-  import * as THREE from 'three';
-  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-  import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-  import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+  import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
   const container = document.getElementById('canvas-container');
   const envelopeWrap = document.getElementById('envelopeWrap');
@@ -366,27 +390,17 @@
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  camera.position.set(0, 0.35, 4.3);
-  camera.lookAt(0, -0.05, 0);
+  camera.position.set(0, 0.05, 4.4);
+  camera.lookAt(0, 0, 0);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setClearColor(0xf8f2e2, 1);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
-
-  const composer = new EffectComposer(renderer);
-  const renderPass = new RenderPass(scene, camera);
-  composer.addPass(renderPass);
-  const bloomPass = new UnrealBloomPass(new THREE.Vector2(300, 240), 0.16, 0.35, 0.92);
-  composer.addPass(bloomPass);
 
   function resize() {
     const w = container.clientWidth;
     const h = container.clientHeight;
     renderer.setSize(w, h, false);
-    composer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
@@ -412,7 +426,6 @@
       ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.fill();
     }
-    // fiber streaks
     ctx.globalAlpha = 0.5;
     for (let i = 0; i < 220; i++) {
       const x = Math.random() * 1024;
@@ -452,8 +465,8 @@
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
     const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
-    grad.addColorStop(0, 'rgba(255, 220, 150, 0.9)');
-    grad.addColorStop(0.4, 'rgba(255, 200, 120, 0.35)');
+    grad.addColorStop(0, 'rgba(255, 220, 150, 0.85)');
+    grad.addColorStop(0.4, 'rgba(255, 200, 120, 0.3)');
     grad.addColorStop(1, 'rgba(255, 200, 120, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 256, 256);
@@ -464,23 +477,21 @@
     transparent: true,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
-    opacity: 0.16
+    opacity: 0.4
   }));
-  glowSprite.scale.set(1.7, 1.7, 1);
-  glowSprite.position.set(0, 0.05, 0.03);
+  glowSprite.scale.set(3.4, 3.4, 1);
+  glowSprite.position.set(0, 0.1, -0.4);
   scene.add(glowSprite);
 
   // ---------- lighting ----------
   scene.add(new THREE.HemisphereLight(0xfff3d6, 0x8a6a3a, 0.9));
   const keyLight = new THREE.DirectionalLight(0xfff0d2, 0.95);
   keyLight.position.set(2.2, 3, 3.5);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(512, 512);
   scene.add(keyLight);
   const fillLight = new THREE.DirectionalLight(0xd8b880, 0.3);
   fillLight.position.set(-2.5, -1, 2.5);
   scene.add(fillLight);
-  const sealGlowLight = new THREE.PointLight(0xffb057, 0.12, 1.8, 2);
+  const sealGlowLight = new THREE.PointLight(0xffb057, 0.5, 2.2, 2);
   sealGlowLight.position.set(0, 0.1, 0.5);
   scene.add(sealGlowLight);
 
@@ -519,7 +530,6 @@
 
   const body = new THREE.Mesh(new THREE.ShapeGeometry(raggedRectShape(W, H, 0.035)), bodyMat);
   body.position.z = -0.02;
-  body.castShadow = true;
   envelope.add(body);
 
   const halfW = W / 2, halfH = H / 2;
@@ -542,7 +552,6 @@
   const flapFrontGeo = triangleShape([[-halfW, 0], [halfW, 0], [0, -flapDepth]]);
   const flapFront = new THREE.Mesh(flapFrontGeo, flapFrontMat);
   flapFront.position.z = 0.001;
-  flapFront.castShadow = true;
   flapHinge.add(flapFront);
 
   const flapBack = new THREE.Mesh(flapFrontGeo, flapBackMat);
@@ -551,7 +560,7 @@
   flapHinge.add(flapBack);
 
   const shadowGeo = new THREE.CircleGeometry(1.35, 32);
-  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x3b2b18, transparent: true, opacity: 0.18 });
+  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 });
   const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
   shadowMesh.position.set(0, -halfH - 0.45, -0.3);
   shadowMesh.scale.set(1, 0.34, 1);
@@ -565,7 +574,6 @@
   const sealMat = new THREE.MeshStandardMaterial({ color: 0x7c1f2e, roughness: 0.32, metalness: 0.3 });
   const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.3, 0.075, 40), sealMat);
   sealBase.rotation.x = Math.PI / 2;
-  sealBase.castShadow = true;
   sealGroup.add(sealBase);
 
   const dripMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.45, metalness: 0.24 });
@@ -601,7 +609,7 @@
   const cy = (bb.max.y + bb.min.y) / 2;
   heartGeo.translate(-cx, -cy, 0);
   const heartScale = 0.15;
-  const heartMat = new THREE.MeshStandardMaterial({ color: 0xe8c98a, roughness: 0.35, metalness: 0.55, emissive: 0x1f1404, emissiveIntensity: 0.08 });
+  const heartMat = new THREE.MeshStandardMaterial({ color: 0xe8c98a, roughness: 0.35, metalness: 0.55, emissive: 0x3a2408, emissiveIntensity: 0.15 });
   const heartMesh = new THREE.Mesh(heartGeo, heartMat);
   heartMesh.scale.set(heartScale, heartScale, heartScale);
   heartMesh.rotation.z = Math.PI;
@@ -634,7 +642,7 @@
   sparkleGeo.setAttribute('position', new THREE.BufferAttribute(sparklePos, 3));
   const sparkleMat = new THREE.PointsMaterial({
     color: 0xf3d98a,
-    size: 0.045,
+    size: 0.05,
     transparent: true,
     opacity: 0,
     depthWrite: false,
@@ -693,21 +701,18 @@
 
   const clock = new THREE.Clock();
   let domFadeTriggered = false;
-  let lastTime = 0;
 
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
-    const dt = Math.min(t - lastTime, 0.05);
-    lastTime = t;
 
     if (!opened) {
       envelope.rotation.y = Math.sin(t * 0.9) * 0.05;
       envelope.position.y = Math.sin(t * 1.3) * 0.03;
     }
 
-    sealGlowLight.intensity = 0.12 + Math.sin(t * 2.2) * 0.03;
-    glowSprite.material.opacity = 0.1 + Math.sin(t * 1.6) * 0.02;
+    sealGlowLight.intensity = 0.5 + Math.sin(t * 2.2) * 0.12;
+    glowSprite.material.opacity = 0.4 + Math.sin(t * 1.6) * 0.06;
 
     if (animState) {
       const elapsed = performance.now() - animState.start;
@@ -746,7 +751,7 @@
       sparkleMat.opacity = 0;
     }
 
-    composer.render();
+    renderer.render(scene, camera);
   }
 
   resize();

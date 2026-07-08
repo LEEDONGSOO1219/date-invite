@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>이번주 토요일, 데이트 할래?</title>
+<style>
+  :root {
+    --accent: #ff4d7e;
+    --text-main: #1a1a1a;
+    --text-sub: #767676;
+    --border: #ececec;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: #ffffff;
+    touch-action: manipulation;
+  }
+
+  .container {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    animation: cardIn 0.6s cubic-bezier(.2,1,.4,1) both;
+  }
+
+  @keyframes cardIn {
+    0% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  h1 {
+    font-size: 24px;
+    color: var(--text-main);
+    margin: 0 0 10px;
+    line-height: 1.45;
+    font-weight: 700;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  p.sub {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin: 0 0 40px;
+    line-height: 1.6;
+  }
+
+  .button-zone {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 15px 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.15s ease, font-size 0.3s ease, padding 0.3s ease;
+    -webkit-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  #likeBtn {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  #likeBtn:active {
+    transform: scale(0.95);
+  }
+
+  #dislikeBtn {
+    background: #ffffff;
+    color: var(--text-sub);
+    border: 1px solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+
+  #dislikeBtn.fleeing {
+    position: fixed;
+    z-index: 999;
+    transition: top 0.28s cubic-bezier(.2,.9,.3,1.3), left 0.28s cubic-bezier(.2,.9,.3,1.3);
+  }
+
+  .escape-count {
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--text-sub);
+    min-height: 18px;
+  }
+
+  .result {
+    display: none;
+  }
+
+  .result.show {
+    display: block;
+    animation: cardIn 0.5s cubic-bezier(.2,1,.4,1) both;
+  }
+
+  .result h1 {
+    font-size: 25px;
+  }
+
+  .footer-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #bdbdbd;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" id="mainCard">
+    <h1>이번 주 <span>토요일</span>,<br>나랑 데이트 할래?</h1>
+    <p class="sub">용기 내서 물어봐요.<br>솔직한 마음으로 골라줘요.</p>
+
+    <div class="button-zone" id="buttonZone">
+      <button id="likeBtn" onclick="onLike()">좋아</button>
+      <button id="dislikeBtn" onmouseenter="dodge(this)" ontouchstart="dodgeTouch(event, this)" onclick="return false;">싫어</button>
+    </div>
+
+    <div class="escape-count" id="escapeMsg"></div>
+    <div class="footer-note">두근두근...</div>
+  </div>
+
+  <div class="card result" id="resultCard">
+    <h1>좋아! 이번 주 <span>토요일</span><br>만나요</h1>
+    <p class="sub">기대할게요, 예쁘게 꾸미고 나올게요.<br>시간이랑 장소는 따로 말해줘요.</p>
+  </div>
+</div>
+
+<script>
+  const dislikeBtn = document.getElementById('dislikeBtn');
+  const likeBtn = document.getElementById('likeBtn');
+  const escapeMsg = document.getElementById('escapeMsg');
+  let dodgeCount = 0;
+
+  const excuses = [
+    '어딜 도망가~',
+    '못 잡지롱',
+    '싫어는 선택지에 없어요.',
+    '헉 빨라',
+    '오늘은 "좋아"만 있는 날이에요.',
+    '포기하고 좋아 눌러줘요.'
+  ];
+
+  function getRandomPosition(btn) {
+    const rect = btn.getBoundingClientRect();
+    const margin = 16;
+    const maxX = window.innerWidth - rect.width - margin;
+    const maxY = window.innerHeight - rect.height - margin;
+    const x = Math.max(margin, Math.random() * maxX);
+    const y = Math.max(margin, Math.random() * maxY);
+    return { x, y };
+  }
+
+  function moveButton(btn) {
+    if (!btn.classList.contains('fleeing')) {
+      const rect = btn.getBoundingClientRect();
+      btn.style.width = rect.width + 'px';
+      btn.classList.add('fleeing');
+    }
+    const { x, y } = getRandomPosition(btn);
+    btn.style.left = x + 'px';
+    btn.style.top = y + 'px';
+
+    dodgeCount++;
+    escapeMsg.textContent = excuses[Math.min(dodgeCount - 1, excuses.length - 1)];
+
+    const scale = Math.min(1 + dodgeCount * 0.06, 1.6);
+    likeBtn.style.transform = `scale(${scale})`;
+  }
+
+  function dodge(btn) {
+    moveButton(btn);
+  }
+
+  function dodgeTouch(e, btn) {
+    e.preventDefault();
+    moveButton(btn);
+  }
+
+  function onLike() {
+    document.getElementById('mainCard').style.display = 'none';
+    document.getElementById('resultCard').classList.add('show');
+  }
+</script>
+
+</body>
+</html>

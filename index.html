@@ -57,9 +57,11 @@
   }
 
   #canvas-container {
-    width: min(300px, 78vw);
-    height: min(240px, 62vw);
+    width: min(320px, 82vw);
+    height: min(260px, 66vw);
     cursor: pointer;
+    -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 100%);
   }
 
   #canvas-container canvas {
@@ -106,7 +108,7 @@
       radial-gradient(ellipse at 85% 90%, rgba(176, 134, 63, 0.16), transparent 45%),
       radial-gradient(ellipse at 80% 15%, rgba(122, 90, 40, 0.1), transparent 40%),
       linear-gradient(160deg, var(--paper) 0%, var(--paper-dark) 100%);
-    padding: 44px 30px 34px;
+    padding: 40px 30px 34px;
     text-align: center;
     box-shadow:
       0 22px 45px rgba(60, 40, 15, 0.28),
@@ -127,11 +129,24 @@
     display: block;
   }
 
+  .corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner.tl { top: 10px; left: 10px; }
+  .corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .corner.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+
   h1 {
     font-family: 'Song Myung', 'Nanum Myeongjo', serif;
     font-size: 24px;
     color: var(--ink);
-    margin: 0 0 14px;
+    margin: 0 0 6px;
     line-height: 1.55;
     font-weight: 400;
     text-shadow: 0 1px 0 rgba(255,255,255,0.3);
@@ -141,10 +156,35 @@
     color: var(--wax);
   }
 
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 66%;
+    margin: 12px auto 20px;
+  }
+  .divider span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .divider span.right {
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+  .divider i {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    display: inline-block;
+    flex: none;
+  }
+
   p.sub {
     font-size: 14.5px;
     color: var(--ink-soft);
-    margin: 0 0 32px;
+    margin: 0 0 30px;
     line-height: 1.8;
     font-style: italic;
   }
@@ -218,7 +258,13 @@
 
   <div class="letter" id="letter">
     <div class="letter-page" id="mainCard">
+      <div class="corner tl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
+      <div class="corner tr"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
+      <div class="corner bl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
+      <div class="corner br"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/><path d="M2 2 C 2 14, 14 2, 26 2" stroke="#b0863f" stroke-width="1" fill="none"/></svg></div>
+
       <h1>이번 주 <span>토요일</span>,<br>나랑 데이트 할래?</h1>
+      <div class="divider"><span></span><i></i><span class="right"></span></div>
       <p class="sub">용기 내서 물어봐요.<br>솔직한 마음으로 골라줘요.</p>
 
       <div class="button-zone" id="buttonZone">
@@ -230,7 +276,13 @@
     </div>
 
     <div class="letter-page result" id="resultCard">
+      <div class="corner tl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
+      <div class="corner tr"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
+      <div class="corner bl"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
+      <div class="corner br"><svg viewBox="0 0 40 40"><path d="M2 2 C 2 20, 20 2, 38 2" stroke="#b0863f" stroke-width="1.4" fill="none"/></svg></div>
+
       <h1>좋아! 이번 주 <span>토요일</span><br>만나요</h1>
+      <div class="divider"><span></span><i></i><span class="right"></span></div>
       <p class="sub">기대할게요, 예쁘게 꾸미고 나올게요.<br>시간이랑 장소는 따로 말해줘요.</p>
     </div>
   </div>
@@ -293,8 +345,20 @@
   }
 </script>
 
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
 <script type="module">
-  import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  import * as THREE from 'three';
+  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+  import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+  import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
   const container = document.getElementById('canvas-container');
   const envelopeWrap = document.getElementById('envelopeWrap');
@@ -302,17 +366,27 @@
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  camera.position.set(0, 0.05, 4.4);
-  camera.lookAt(0, 0, 0);
+  camera.position.set(0, 0.35, 4.3);
+  camera.lookAt(0, -0.05, 0);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0xf8f2e2, 1);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
+
+  const composer = new EffectComposer(renderer);
+  const renderPass = new RenderPass(scene, camera);
+  composer.addPass(renderPass);
+  const bloomPass = new UnrealBloomPass(new THREE.Vector2(300, 240), 0.16, 0.35, 0.92);
+  composer.addPass(bloomPass);
 
   function resize() {
     const w = container.clientWidth;
     const h = container.clientHeight;
     renderer.setSize(w, h, false);
+    composer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
@@ -321,33 +395,48 @@
   // ---------- aged parchment texture ----------
   function createParchmentTexture(base, blotch) {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 1024;
+    canvas.height = 1024;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = base;
-    ctx.fillRect(0, 0, 512, 512);
-    for (let i = 0; i < 70; i++) {
-      const x = Math.random() * 512;
-      const y = Math.random() * 512;
-      const r = 20 + Math.random() * 70;
+    ctx.fillRect(0, 0, 1024, 1024);
+    for (let i = 0; i < 110; i++) {
+      const x = Math.random() * 1024;
+      const y = Math.random() * 1024;
+      const r = 30 + Math.random() * 140;
       const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
-      grad.addColorStop(0, blotch.replace('ALPHA', 0.16 + Math.random() * 0.12));
+      grad.addColorStop(0, blotch.replace('ALPHA', 0.14 + Math.random() * 0.12));
       grad.addColorStop(1, blotch.replace('ALPHA', 0));
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.fill();
     }
+    // fiber streaks
     ctx.globalAlpha = 0.5;
-    for (let i = 0; i < 900; i++) {
-      const x = Math.random() * 512;
-      const y = Math.random() * 512;
+    for (let i = 0; i < 220; i++) {
+      const x = Math.random() * 1024;
+      const y = Math.random() * 1024;
+      const len = 10 + Math.random() * 40;
+      const ang = Math.random() * Math.PI;
+      ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(90,62,24,0.08)' : 'rgba(255,248,225,0.09)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 0.6;
+    for (let i = 0; i < 1600; i++) {
+      const x = Math.random() * 1024;
+      const y = Math.random() * 1024;
       ctx.fillStyle = Math.random() > 0.5 ? 'rgba(80,55,20,0.06)' : 'rgba(255,245,220,0.08)';
-      ctx.fillRect(x, y, 1.4, 1.4);
+      ctx.fillRect(x, y, 1.2, 1.2);
     }
     const tex = new THREE.CanvasTexture(canvas);
     tex.wrapS = THREE.RepeatWrapping;
     tex.wrapT = THREE.RepeatWrapping;
+    tex.anisotropy = 4;
     return tex;
   }
 
@@ -356,14 +445,44 @@
   const parchmentTexFlapFront = createParchmentTexture('#d3b87d', 'rgba(140,100,45,ALPHA)');
   const parchmentTexFlapBack = createParchmentTexture('#b89a63', 'rgba(100,70,30,ALPHA)');
 
+  // ---------- warm candlelit glow behind envelope ----------
+  function createGlowTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(255, 220, 150, 0.9)');
+    grad.addColorStop(0.4, 'rgba(255, 200, 120, 0.35)');
+    grad.addColorStop(1, 'rgba(255, 200, 120, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(canvas);
+  }
+  const glowSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: createGlowTexture(),
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    opacity: 0.16
+  }));
+  glowSprite.scale.set(1.7, 1.7, 1);
+  glowSprite.position.set(0, 0.05, 0.03);
+  scene.add(glowSprite);
+
   // ---------- lighting ----------
-  scene.add(new THREE.HemisphereLight(0xfff3d6, 0x8a6a3a, 1.0));
-  const keyLight = new THREE.DirectionalLight(0xfff0d2, 0.9);
+  scene.add(new THREE.HemisphereLight(0xfff3d6, 0x8a6a3a, 0.9));
+  const keyLight = new THREE.DirectionalLight(0xfff0d2, 0.95);
   keyLight.position.set(2.2, 3, 3.5);
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.set(512, 512);
   scene.add(keyLight);
-  const fillLight = new THREE.DirectionalLight(0xd8b880, 0.35);
+  const fillLight = new THREE.DirectionalLight(0xd8b880, 0.3);
   fillLight.position.set(-2.5, -1, 2.5);
   scene.add(fillLight);
+  const sealGlowLight = new THREE.PointLight(0xffb057, 0.12, 1.8, 2);
+  sealGlowLight.position.set(0, 0.1, 0.5);
+  scene.add(sealGlowLight);
 
   // ---------- envelope group ----------
   const W = 2.6, H = 1.7;
@@ -398,9 +517,9 @@
     return shape;
   }
 
-  // back body panel (slightly ragged parchment edge)
   const body = new THREE.Mesh(new THREE.ShapeGeometry(raggedRectShape(W, H, 0.035)), bodyMat);
   body.position.z = -0.02;
+  body.castShadow = true;
   envelope.add(body);
 
   const halfW = W / 2, halfH = H / 2;
@@ -415,7 +534,6 @@
   rightPocket.position.z = 0.01;
   envelope.add(rightPocket);
 
-  // top flap, hinged along top edge
   const flapHinge = new THREE.Group();
   flapHinge.position.set(0, halfH, 0.015);
   envelope.add(flapHinge);
@@ -424,6 +542,7 @@
   const flapFrontGeo = triangleShape([[-halfW, 0], [halfW, 0], [0, -flapDepth]]);
   const flapFront = new THREE.Mesh(flapFrontGeo, flapFrontMat);
   flapFront.position.z = 0.001;
+  flapFront.castShadow = true;
   flapHinge.add(flapFront);
 
   const flapBack = new THREE.Mesh(flapFrontGeo, flapBackMat);
@@ -431,7 +550,6 @@
   flapBack.rotation.y = Math.PI;
   flapHinge.add(flapBack);
 
-  // soft contact shadow under envelope
   const shadowGeo = new THREE.CircleGeometry(1.35, 32);
   const shadowMat = new THREE.MeshBasicMaterial({ color: 0x3b2b18, transparent: true, opacity: 0.18 });
   const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
@@ -444,13 +562,13 @@
   flapHinge.add(sealGroup);
   sealGroup.position.set(0, -0.62, 0.02);
 
-  const sealMat = new THREE.MeshStandardMaterial({ color: 0x7c1f2e, roughness: 0.38, metalness: 0.22 });
+  const sealMat = new THREE.MeshStandardMaterial({ color: 0x7c1f2e, roughness: 0.32, metalness: 0.3 });
   const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.3, 0.075, 40), sealMat);
   sealBase.rotation.x = Math.PI / 2;
+  sealBase.castShadow = true;
   sealGroup.add(sealBase);
 
-  // drippy wax edge (irregular torus-like ring made from small bumps)
-  const dripMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.5, metalness: 0.18 });
+  const dripMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.45, metalness: 0.24 });
   for (let i = 0; i < 14; i++) {
     const a = (i / 14) * Math.PI * 2;
     const bump = new THREE.Mesh(new THREE.SphereGeometry(0.035 + Math.random() * 0.02, 8, 8), dripMat);
@@ -458,7 +576,7 @@
     sealGroup.add(bump);
   }
 
-  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x4d1219, roughness: 0.45, metalness: 0.2 });
+  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x4d1219, roughness: 0.4, metalness: 0.25 });
   const sealRing = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.016, 12, 32), sealRingMat);
   sealRing.position.z = 0.041;
   sealGroup.add(sealRing);
@@ -483,14 +601,13 @@
   const cy = (bb.max.y + bb.min.y) / 2;
   heartGeo.translate(-cx, -cy, 0);
   const heartScale = 0.15;
-  const heartMat = new THREE.MeshStandardMaterial({ color: 0xd9b877, roughness: 0.45, metalness: 0.35 });
+  const heartMat = new THREE.MeshStandardMaterial({ color: 0xe8c98a, roughness: 0.35, metalness: 0.55, emissive: 0x1f1404, emissiveIntensity: 0.08 });
   const heartMesh = new THREE.Mesh(heartGeo, heartMat);
   heartMesh.scale.set(heartScale, heartScale, heartScale);
   heartMesh.rotation.z = Math.PI;
   heartMesh.position.z = 0.041;
   sealGroup.add(heartMesh);
 
-  // invisible larger hit-target for easier tapping on mobile
   const hitTarget = new THREE.Mesh(
     new THREE.CircleGeometry(0.44, 24),
     new THREE.MeshBasicMaterial({ visible: false })
@@ -498,6 +615,44 @@
   hitTarget.position.z = 0.06;
   hitTarget.userData.isSeal = true;
   sealGroup.add(hitTarget);
+
+  // ---------- sparkle burst ----------
+  const sparkleCount = 46;
+  const sparkleGeo = new THREE.BufferGeometry();
+  const sparklePos = new Float32Array(sparkleCount * 3);
+  const sparkleVel = [];
+  for (let i = 0; i < sparkleCount; i++) {
+    sparklePos.set([0, 0, 0], i * 3);
+    const ang = Math.random() * Math.PI * 2;
+    const speed = 0.5 + Math.random() * 1.4;
+    sparkleVel.push({
+      x: Math.cos(ang) * speed,
+      y: Math.sin(ang) * speed + 0.6,
+      z: (Math.random() - 0.5) * 1.2
+    });
+  }
+  sparkleGeo.setAttribute('position', new THREE.BufferAttribute(sparklePos, 3));
+  const sparkleMat = new THREE.PointsMaterial({
+    color: 0xf3d98a,
+    size: 0.045,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+  const sparkles = new THREE.Points(sparkleGeo, sparkleMat);
+  sparkles.position.copy(new THREE.Vector3(0, halfH - 0.62, 0.06));
+  scene.add(sparkles);
+  let sparkleActive = false;
+  let sparkleStart = 0;
+
+  function burstSparkles() {
+    const posAttr = sparkleGeo.getAttribute('position');
+    for (let i = 0; i < sparkleCount; i++) posAttr.setXYZ(i, 0, 0, 0);
+    posAttr.needsUpdate = true;
+    sparkleActive = true;
+    sparkleStart = performance.now();
+  }
 
   // ---------- interaction ----------
   const raycaster = new THREE.Raycaster();
@@ -526,6 +681,7 @@
     if (opened) return;
     opened = true;
     animState = { start: performance.now() };
+    burstSparkles();
   }
 
   function easeOutCubic(t) {
@@ -537,15 +693,21 @@
 
   const clock = new THREE.Clock();
   let domFadeTriggered = false;
+  let lastTime = 0;
 
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+    const dt = Math.min(t - lastTime, 0.05);
+    lastTime = t;
 
     if (!opened) {
       envelope.rotation.y = Math.sin(t * 0.9) * 0.05;
       envelope.position.y = Math.sin(t * 1.3) * 0.03;
     }
+
+    sealGlowLight.intensity = 0.12 + Math.sin(t * 2.2) * 0.03;
+    glowSprite.material.opacity = 0.1 + Math.sin(t * 1.6) * 0.02;
 
     if (animState) {
       const elapsed = performance.now() - animState.start;
@@ -570,7 +732,21 @@
       }
     }
 
-    renderer.render(scene, camera);
+    if (sparkleActive) {
+      const se = (performance.now() - sparkleStart) / 1000;
+      const posAttr = sparkleGeo.getAttribute('position');
+      for (let i = 0; i < sparkleCount; i++) {
+        const v = sparkleVel[i];
+        posAttr.setXYZ(i, v.x * se, v.y * se - 0.9 * se * se, v.z * se);
+      }
+      posAttr.needsUpdate = true;
+      sparkleMat.opacity = Math.max(0, 1 - se / 1.1);
+      if (se > 1.1) sparkleActive = false;
+    } else {
+      sparkleMat.opacity = 0;
+    }
+
+    composer.render();
   }
 
   resize();

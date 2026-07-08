@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>이번주 토요일, 데이트 할래?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #3a2c22;
-    --ink-soft: #8a7a68;
-    --seal: #7c1f2e;
-    --paper: #fffdf6;
-    --paper-line: #ece2cf;
+    --ink: #5b4a86;
+    --ink-soft: #a495c9;
+    --purple: #9b6bde;
+    --purple-dark: #7c4dc4;
+    --paper: #fffcff;
+    --paper-dot: #ecdcfb;
+    --bg-top: #f6ecff;
+    --bg-bottom: #ffffff;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -22,8 +25,8 @@
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: 'Nanum Myeongjo', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
-    background: #ffffff;
+    font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 60%);
     touch-action: manipulation;
   }
 
@@ -66,7 +69,7 @@
 
   .hint {
     margin-top: 10px;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-soft);
     letter-spacing: 0.02em;
     transition: opacity 0.3s ease;
@@ -96,18 +99,15 @@
 
   .letter-page {
     background: var(--paper);
-    border-radius: 4px;
-    padding: 40px 28px 32px;
+    border-radius: 28px;
+    padding: 42px 28px 32px;
     text-align: center;
     box-shadow:
-      0 20px 45px rgba(80, 55, 25, 0.16),
+      0 20px 45px rgba(155, 107, 222, 0.22),
       0 2px 0 rgba(0,0,0,0.02);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent,
-      transparent 27px,
-      var(--paper-line) 28px
-    );
+    background-image: radial-gradient(var(--paper-dot) 1.6px, transparent 1.6px);
+    background-size: 16px 16px;
+    border: 2px solid #f1e4ff;
   }
 
   .letter-page.result {
@@ -119,22 +119,23 @@
   }
 
   h1 {
-    font-size: 24px;
+    font-family: 'Jua', 'Gaegu', sans-serif;
+    font-size: 25px;
     color: var(--ink);
     margin: 0 0 12px;
-    line-height: 1.5;
-    font-weight: 800;
+    line-height: 1.55;
+    font-weight: 400;
   }
 
   h1 span {
-    color: var(--seal);
+    color: var(--purple-dark);
   }
 
   p.sub {
-    font-size: 14.5px;
+    font-size: 15.5px;
     color: var(--ink-soft);
-    margin: 0 0 34px;
-    line-height: 1.75;
+    margin: 0 0 32px;
+    line-height: 1.7;
   }
 
   .button-zone {
@@ -149,31 +150,37 @@
 
   button.choice {
     border: none;
-    font-family: inherit;
-    font-size: 16.5px;
-    font-weight: 700;
-    padding: 14px 32px;
+    font-family: 'Jua', 'Gaegu', sans-serif;
+    font-size: 17px;
+    padding: 14px 34px;
     border-radius: 999px;
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s cubic-bezier(.4,1.6,.5,1);
     -webkit-user-select: none;
     user-select: none;
     white-space: nowrap;
   }
 
   #likeBtn {
-    background: var(--seal);
-    color: #fff8f0;
+    background: linear-gradient(135deg, #b78af0, var(--purple));
+    color: #ffffff;
+    box-shadow: 0 8px 18px rgba(155, 107, 222, 0.45);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.045); }
   }
 
   #likeBtn:active {
-    transform: scale(0.95);
+    transform: scale(0.93);
   }
 
   #dislikeBtn {
-    background: transparent;
+    background: #ffffff;
     color: var(--ink-soft);
-    border: 1.5px solid var(--paper-line);
+    border: 2px solid #ecdcfb;
     position: relative;
     z-index: 2;
   }
@@ -181,14 +188,15 @@
   #dislikeBtn.fleeing {
     position: fixed;
     z-index: 999;
-    background: var(--paper);
+    background: #ffffff;
+    animation: none;
     transition: top 0.28s cubic-bezier(.2,.9,.3,1.3), left 0.28s cubic-bezier(.2,.9,.3,1.3);
   }
 
   .escape-count {
     margin-top: 16px;
-    font-size: 12.5px;
-    color: var(--ink-soft);
+    font-size: 13.5px;
+    color: var(--purple-dark);
     min-height: 18px;
   }
 </style>
@@ -198,7 +206,7 @@
 <div class="stage">
   <div class="envelope-wrap" id="envelopeWrap">
     <div id="canvas-container"></div>
-    <p class="hint" id="hint">도장을 눌러 편지를 열어보세요</p>
+    <p class="hint" id="hint">도장을 콕 눌러서 편지를 열어보세요</p>
   </div>
 
   <div class="letter" id="letter">
@@ -304,11 +312,11 @@
   window.addEventListener('resize', resize);
 
   // ---------- lighting ----------
-  scene.add(new THREE.HemisphereLight(0xfff6e8, 0xcbb98f, 1.0));
-  const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  scene.add(new THREE.HemisphereLight(0xfff3ff, 0xc9aaf0, 1.05));
+  const keyLight = new THREE.DirectionalLight(0xffffff, 0.85);
   keyLight.position.set(2.2, 3, 3.5);
   scene.add(keyLight);
-  const fillLight = new THREE.DirectionalLight(0xffe9cf, 0.35);
+  const fillLight = new THREE.DirectionalLight(0xf3d9ff, 0.4);
   fillLight.position.set(-2.5, -1, 2.5);
   scene.add(fillLight);
 
@@ -317,22 +325,11 @@
   const envelope = new THREE.Group();
   scene.add(envelope);
 
-  const colorBody = 0xf1e6cb;
-  const colorPocket = 0xddccA4 & 0xffffff; // ensure valid hex
-  const colorFlapFront = 0xe9dbb9;
-  const colorFlapBack = 0xd8c69c;
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf3e6ff, roughness: 0.75, metalness: 0.02 });
+  const pocketMat = new THREE.MeshStandardMaterial({ color: 0xe4cffb, roughness: 0.75, metalness: 0.02 });
+  const flapFrontMat = new THREE.MeshStandardMaterial({ color: 0xecdcfe, roughness: 0.7, metalness: 0.02, side: THREE.DoubleSide });
+  const flapBackMat = new THREE.MeshStandardMaterial({ color: 0xd7b8f5, roughness: 0.8, metalness: 0.02, side: THREE.DoubleSide });
 
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf1e6cb, roughness: 0.85, metalness: 0.02 });
-  const pocketMat = new THREE.MeshStandardMaterial({ color: 0xddcaa0, roughness: 0.85, metalness: 0.02 });
-  const flapFrontMat = new THREE.MeshStandardMaterial({ color: 0xe9dbb9, roughness: 0.8, metalness: 0.02, side: THREE.DoubleSide });
-  const flapBackMat = new THREE.MeshStandardMaterial({ color: 0xcdb98d, roughness: 0.9, metalness: 0.02, side: THREE.DoubleSide });
-
-  // back body panel
-  const body = new THREE.Mesh(new THREE.PlaneGeometry(W, H), bodyMat);
-  body.position.z = -0.02;
-  envelope.add(body);
-
-  // bottom pockets (triangular folds)
   function triangleShape(points) {
     const shape = new THREE.Shape();
     shape.moveTo(points[0][0], points[0][1]);
@@ -340,6 +337,26 @@
     shape.closePath();
     return new THREE.ShapeGeometry(shape);
   }
+
+  function roundedRectShape(w, h, r) {
+    const shape = new THREE.Shape();
+    const hw = w / 2, hh = h / 2;
+    shape.moveTo(-hw + r, -hh);
+    shape.lineTo(hw - r, -hh);
+    shape.quadraticCurveTo(hw, -hh, hw, -hh + r);
+    shape.lineTo(hw, hh - r);
+    shape.quadraticCurveTo(hw, hh, hw - r, hh);
+    shape.lineTo(-hw + r, hh);
+    shape.quadraticCurveTo(-hw, hh, -hw, hh - r);
+    shape.lineTo(-hw, -hh + r);
+    shape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
+    return shape;
+  }
+
+  // back body panel (rounded, cute silhouette)
+  const body = new THREE.Mesh(new THREE.ShapeGeometry(roundedRectShape(W, H, 0.18)), bodyMat);
+  body.position.z = -0.02;
+  envelope.add(body);
 
   const halfW = W / 2, halfH = H / 2;
 
@@ -371,35 +388,53 @@
 
   // soft contact shadow under envelope
   const shadowGeo = new THREE.CircleGeometry(1.35, 32);
-  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x3a2c22, transparent: true, opacity: 0.14 });
+  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x8a5fc9, transparent: true, opacity: 0.15 });
   const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
   shadowMesh.position.set(0, -halfH - 0.45, -0.3);
   shadowMesh.scale.set(1, 0.34, 1);
   scene.add(shadowMesh);
 
-  // ---------- wax seal ----------
+  // ---------- cute wax seal with heart mark ----------
   const sealGroup = new THREE.Group();
-  sealGroup.position.set(0, 0.18, 0.06);
   flapHinge.add(sealGroup);
-  // note: seal is attached to flapHinge so it stays glued to the flap as it opens,
-  // matching where a real wax seal sits on the envelope flap.
   sealGroup.position.set(0, -0.62, 0.02);
 
-  const sealMat = new THREE.MeshStandardMaterial({ color: 0x7c1f2e, roughness: 0.4, metalness: 0.25 });
-  const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.28, 0.07, 32), sealMat);
+  const sealMat = new THREE.MeshStandardMaterial({ color: 0x9b6bde, roughness: 0.35, metalness: 0.25 });
+  const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.29, 0.07, 32), sealMat);
   sealBase.rotation.x = Math.PI / 2;
   sealGroup.add(sealBase);
 
-  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.5, metalness: 0.2 });
-  const sealRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 12, 32), sealRingMat);
+  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x7c4dc4, roughness: 0.45, metalness: 0.2 });
+  const sealRing = new THREE.Mesh(new THREE.TorusGeometry(0.165, 0.018, 12, 32), sealRingMat);
   sealRing.position.z = 0.041;
   sealGroup.add(sealRing);
 
-  const sealMarkMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.5, metalness: 0.2 });
-  const sealMark = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.01), sealMarkMat);
-  sealMark.rotation.z = Math.PI / 4;
-  sealMark.position.z = 0.041;
-  sealGroup.add(sealMark);
+  function heartShape2D() {
+    const s = new THREE.Shape();
+    const x = 0, y = 0;
+    s.moveTo(x + 0.25, y + 0.25);
+    s.bezierCurveTo(x + 0.25, y + 0.25, x + 0.2, y, x, y);
+    s.bezierCurveTo(x - 0.3, y, x - 0.3, y + 0.35, x - 0.3, y + 0.35);
+    s.bezierCurveTo(x - 0.3, y + 0.55, x - 0.1, y + 0.77, x + 0.25, y + 0.95);
+    s.bezierCurveTo(x + 0.6, y + 0.77, x + 0.8, y + 0.55, x + 0.8, y + 0.35);
+    s.bezierCurveTo(x + 0.8, y + 0.35, x + 0.8, y, x + 0.5, y);
+    s.bezierCurveTo(x + 0.35, y, x + 0.25, y + 0.25, x + 0.25, y + 0.25);
+    return s;
+  }
+
+  const heartGeo = new THREE.ShapeGeometry(heartShape2D());
+  heartGeo.computeBoundingBox();
+  const bb = heartGeo.boundingBox;
+  const cx = (bb.max.x + bb.min.x) / 2;
+  const cy = (bb.max.y + bb.min.y) / 2;
+  heartGeo.translate(-cx, -cy, 0);
+  const heartScale = 0.16;
+  const heartMat = new THREE.MeshStandardMaterial({ color: 0xf3e6ff, roughness: 0.4, metalness: 0.15 });
+  const heartMesh = new THREE.Mesh(heartGeo, heartMat);
+  heartMesh.scale.set(heartScale, heartScale, heartScale);
+  heartMesh.rotation.z = Math.PI;
+  heartMesh.position.z = 0.041;
+  sealGroup.add(heartMesh);
 
   // invisible larger hit-target for easier tapping on mobile
   const hitTarget = new THREE.Mesh(
@@ -431,7 +466,7 @@
   }
   renderer.domElement.addEventListener('pointerdown', onPointerDown);
 
-  let animState = null; // { start, phase }
+  let animState = null;
 
   function openEnvelope() {
     if (opened) return;
@@ -464,7 +499,6 @@
       const sealT = Math.min(elapsed / 380, 1);
       const sealEase = easeInCubic(sealT);
       sealGroup.scale.setScalar(1 - sealEase);
-      sealGroup.position.z = -0.62 * 0 + (0.02 + sealEase * 0.5);
 
       const flapDelay = 120;
       const flapT = Math.min(Math.max(elapsed - flapDelay, 0) / 650, 1);

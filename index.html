@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>이번주 토요일, 데이트 할래?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #5b4a86;
-    --ink-soft: #a495c9;
-    --purple: #9b6bde;
-    --purple-dark: #7c4dc4;
-    --paper: #fffcff;
-    --paper-dot: #ecdcfb;
-    --bg-top: #f6ecff;
-    --bg-bottom: #ffffff;
+    --ink: #3b2b18;
+    --ink-soft: #7a6647;
+    --wax: #7c1f2e;
+    --wax-dark: #4d1219;
+    --gold: #b0863f;
+    --paper: #ecdcb0;
+    --paper-dark: #ddc691;
+    --bg-top: #efe3c0;
+    --bg-bottom: #f8f2e2;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -25,8 +26,8 @@
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 60%);
+    font-family: 'Nanum Myeongjo', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
+    background: radial-gradient(circle at 50% 20%, var(--bg-top) 0%, var(--bg-bottom) 70%);
     touch-action: manipulation;
   }
 
@@ -69,9 +70,10 @@
 
   .hint {
     margin-top: 10px;
-    font-size: 15px;
+    font-family: 'Song Myung', serif;
+    font-size: 14px;
     color: var(--ink-soft);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     transition: opacity 0.3s ease;
   }
 
@@ -86,28 +88,35 @@
     max-width: 380px;
     padding: 0 24px;
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(50px) rotate(0deg);
     pointer-events: none;
     transition: opacity 0.55s ease 0.15s, transform 0.55s cubic-bezier(.2,.8,.3,1) 0.15s;
   }
 
   .letter.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) rotate(-0.6deg);
     pointer-events: auto;
   }
 
   .letter-page {
-    background: var(--paper);
-    border-radius: 28px;
-    padding: 42px 28px 32px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(176, 134, 63, 0.16), transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(176, 134, 63, 0.16), transparent 45%),
+      radial-gradient(ellipse at 80% 15%, rgba(122, 90, 40, 0.1), transparent 40%),
+      linear-gradient(160deg, var(--paper) 0%, var(--paper-dark) 100%);
+    padding: 44px 30px 34px;
     text-align: center;
     box-shadow:
-      0 20px 45px rgba(155, 107, 222, 0.22),
-      0 2px 0 rgba(0,0,0,0.02);
-    background-image: radial-gradient(var(--paper-dot) 1.6px, transparent 1.6px);
-    background-size: 16px 16px;
-    border: 2px solid #f1e4ff;
+      0 22px 45px rgba(60, 40, 15, 0.28),
+      inset 0 0 40px rgba(122, 90, 40, 0.18);
+    border: 1px solid rgba(122, 90, 40, 0.35);
+    clip-path: polygon(
+      1% 3%, 12% 0%, 28% 1.5%, 45% 0%, 63% 1.2%, 80% 0%, 97% 2%, 100% 12%,
+      99% 30%, 100% 48%, 98.5% 66%, 100% 84%, 98% 97%, 85% 100%, 68% 98.5%,
+      50% 100%, 33% 98.7%, 15% 100%, 2% 97%, 0% 82%, 1.5% 64%, 0% 46%, 1.2% 28%, 0% 12%
+    );
   }
 
   .letter-page.result {
@@ -119,23 +128,25 @@
   }
 
   h1 {
-    font-family: 'Jua', 'Gaegu', sans-serif;
-    font-size: 25px;
+    font-family: 'Song Myung', 'Nanum Myeongjo', serif;
+    font-size: 24px;
     color: var(--ink);
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     line-height: 1.55;
     font-weight: 400;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
   }
 
   h1 span {
-    color: var(--purple-dark);
+    color: var(--wax);
   }
 
   p.sub {
-    font-size: 15.5px;
+    font-size: 14.5px;
     color: var(--ink-soft);
     margin: 0 0 32px;
-    line-height: 1.7;
+    line-height: 1.8;
+    font-style: italic;
   }
 
   .button-zone {
@@ -150,37 +161,33 @@
 
   button.choice {
     border: none;
-    font-family: 'Jua', 'Gaegu', sans-serif;
-    font-size: 17px;
+    font-family: 'Song Myung', 'Nanum Myeongjo', serif;
+    font-size: 16.5px;
     padding: 14px 34px;
-    border-radius: 999px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: transform 0.15s cubic-bezier(.4,1.6,.5,1);
+    transition: transform 0.15s ease;
     -webkit-user-select: none;
     user-select: none;
     white-space: nowrap;
+    letter-spacing: 0.03em;
   }
 
   #likeBtn {
-    background: linear-gradient(135deg, #b78af0, var(--purple));
-    color: #ffffff;
-    box-shadow: 0 8px 18px rgba(155, 107, 222, 0.45);
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.045); }
+    background: linear-gradient(160deg, #8a2436, var(--wax));
+    color: #f3e6c8;
+    box-shadow: 0 8px 18px rgba(124, 31, 46, 0.4);
+    border: 1px solid #5c141f;
   }
 
   #likeBtn:active {
-    transform: scale(0.93);
+    transform: scale(0.94);
   }
 
   #dislikeBtn {
-    background: #ffffff;
+    background: transparent;
     color: var(--ink-soft);
-    border: 2px solid #ecdcfb;
+    border: 1.5px solid rgba(122, 90, 40, 0.45);
     position: relative;
     z-index: 2;
   }
@@ -188,16 +195,16 @@
   #dislikeBtn.fleeing {
     position: fixed;
     z-index: 999;
-    background: #ffffff;
-    animation: none;
+    background: var(--paper);
     transition: top 0.28s cubic-bezier(.2,.9,.3,1.3), left 0.28s cubic-bezier(.2,.9,.3,1.3);
   }
 
   .escape-count {
     margin-top: 16px;
-    font-size: 13.5px;
-    color: var(--purple-dark);
+    font-size: 13px;
+    color: var(--wax);
     min-height: 18px;
+    font-style: italic;
   }
 </style>
 </head>
@@ -206,7 +213,7 @@
 <div class="stage">
   <div class="envelope-wrap" id="envelopeWrap">
     <div id="canvas-container"></div>
-    <p class="hint" id="hint">도장을 콕 눌러서 편지를 열어보세요</p>
+    <p class="hint" id="hint">봉랍을 눌러 편지를 열어보세요</p>
   </div>
 
   <div class="letter" id="letter">
@@ -311,12 +318,50 @@
   }
   window.addEventListener('resize', resize);
 
+  // ---------- aged parchment texture ----------
+  function createParchmentTexture(base, blotch) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = base;
+    ctx.fillRect(0, 0, 512, 512);
+    for (let i = 0; i < 70; i++) {
+      const x = Math.random() * 512;
+      const y = Math.random() * 512;
+      const r = 20 + Math.random() * 70;
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+      grad.addColorStop(0, blotch.replace('ALPHA', 0.16 + Math.random() * 0.12));
+      grad.addColorStop(1, blotch.replace('ALPHA', 0));
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 0.5;
+    for (let i = 0; i < 900; i++) {
+      const x = Math.random() * 512;
+      const y = Math.random() * 512;
+      ctx.fillStyle = Math.random() > 0.5 ? 'rgba(80,55,20,0.06)' : 'rgba(255,245,220,0.08)';
+      ctx.fillRect(x, y, 1.4, 1.4);
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    return tex;
+  }
+
+  const parchmentTexBody = createParchmentTexture('#d9c188', 'rgba(150,110,50,ALPHA)');
+  const parchmentTexPocket = createParchmentTexture('#c9ac72', 'rgba(120,85,35,ALPHA)');
+  const parchmentTexFlapFront = createParchmentTexture('#d3b87d', 'rgba(140,100,45,ALPHA)');
+  const parchmentTexFlapBack = createParchmentTexture('#b89a63', 'rgba(100,70,30,ALPHA)');
+
   // ---------- lighting ----------
-  scene.add(new THREE.HemisphereLight(0xfff3ff, 0xc9aaf0, 1.05));
-  const keyLight = new THREE.DirectionalLight(0xffffff, 0.85);
+  scene.add(new THREE.HemisphereLight(0xfff3d6, 0x8a6a3a, 1.0));
+  const keyLight = new THREE.DirectionalLight(0xfff0d2, 0.9);
   keyLight.position.set(2.2, 3, 3.5);
   scene.add(keyLight);
-  const fillLight = new THREE.DirectionalLight(0xf3d9ff, 0.4);
+  const fillLight = new THREE.DirectionalLight(0xd8b880, 0.35);
   fillLight.position.set(-2.5, -1, 2.5);
   scene.add(fillLight);
 
@@ -325,10 +370,10 @@
   const envelope = new THREE.Group();
   scene.add(envelope);
 
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf3e6ff, roughness: 0.75, metalness: 0.02 });
-  const pocketMat = new THREE.MeshStandardMaterial({ color: 0xe4cffb, roughness: 0.75, metalness: 0.02 });
-  const flapFrontMat = new THREE.MeshStandardMaterial({ color: 0xecdcfe, roughness: 0.7, metalness: 0.02, side: THREE.DoubleSide });
-  const flapBackMat = new THREE.MeshStandardMaterial({ color: 0xd7b8f5, roughness: 0.8, metalness: 0.02, side: THREE.DoubleSide });
+  const bodyMat = new THREE.MeshStandardMaterial({ map: parchmentTexBody, roughness: 0.9, metalness: 0.0 });
+  const pocketMat = new THREE.MeshStandardMaterial({ map: parchmentTexPocket, roughness: 0.9, metalness: 0.0 });
+  const flapFrontMat = new THREE.MeshStandardMaterial({ map: parchmentTexFlapFront, roughness: 0.88, metalness: 0.0, side: THREE.DoubleSide });
+  const flapBackMat = new THREE.MeshStandardMaterial({ map: parchmentTexFlapBack, roughness: 0.92, metalness: 0.0, side: THREE.DoubleSide });
 
   function triangleShape(points) {
     const shape = new THREE.Shape();
@@ -338,23 +383,23 @@
     return new THREE.ShapeGeometry(shape);
   }
 
-  function roundedRectShape(w, h, r) {
+  function raggedRectShape(w, h, jag) {
     const shape = new THREE.Shape();
     const hw = w / 2, hh = h / 2;
-    shape.moveTo(-hw + r, -hh);
-    shape.lineTo(hw - r, -hh);
-    shape.quadraticCurveTo(hw, -hh, hw, -hh + r);
-    shape.lineTo(hw, hh - r);
-    shape.quadraticCurveTo(hw, hh, hw - r, hh);
-    shape.lineTo(-hw + r, hh);
-    shape.quadraticCurveTo(-hw, hh, -hw, hh - r);
-    shape.lineTo(-hw, -hh + r);
-    shape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
+    const steps = 14;
+    const pts = [];
+    for (let i = 0; i <= steps; i++) pts.push([-hw + (w * i) / steps, -hh + (Math.random() - 0.5) * jag]);
+    for (let i = 0; i <= steps; i++) pts.push([hw + (Math.random() - 0.5) * jag, -hh + (h * i) / steps]);
+    for (let i = 0; i <= steps; i++) pts.push([hw - (w * i) / steps, hh + (Math.random() - 0.5) * jag]);
+    for (let i = 0; i <= steps; i++) pts.push([-hw + (Math.random() - 0.5) * jag, hh - (h * i) / steps]);
+    shape.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
+    shape.closePath();
     return shape;
   }
 
-  // back body panel (rounded, cute silhouette)
-  const body = new THREE.Mesh(new THREE.ShapeGeometry(roundedRectShape(W, H, 0.18)), bodyMat);
+  // back body panel (slightly ragged parchment edge)
+  const body = new THREE.Mesh(new THREE.ShapeGeometry(raggedRectShape(W, H, 0.035)), bodyMat);
   body.position.z = -0.02;
   envelope.add(body);
 
@@ -388,24 +433,33 @@
 
   // soft contact shadow under envelope
   const shadowGeo = new THREE.CircleGeometry(1.35, 32);
-  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x8a5fc9, transparent: true, opacity: 0.15 });
+  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x3b2b18, transparent: true, opacity: 0.18 });
   const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
   shadowMesh.position.set(0, -halfH - 0.45, -0.3);
   shadowMesh.scale.set(1, 0.34, 1);
   scene.add(shadowMesh);
 
-  // ---------- cute wax seal with heart mark ----------
+  // ---------- burgundy wax seal ----------
   const sealGroup = new THREE.Group();
   flapHinge.add(sealGroup);
   sealGroup.position.set(0, -0.62, 0.02);
 
-  const sealMat = new THREE.MeshStandardMaterial({ color: 0x9b6bde, roughness: 0.35, metalness: 0.25 });
-  const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.29, 0.07, 32), sealMat);
+  const sealMat = new THREE.MeshStandardMaterial({ color: 0x7c1f2e, roughness: 0.38, metalness: 0.22 });
+  const sealBase = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.3, 0.075, 40), sealMat);
   sealBase.rotation.x = Math.PI / 2;
   sealGroup.add(sealBase);
 
-  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x7c4dc4, roughness: 0.45, metalness: 0.2 });
-  const sealRing = new THREE.Mesh(new THREE.TorusGeometry(0.165, 0.018, 12, 32), sealRingMat);
+  // drippy wax edge (irregular torus-like ring made from small bumps)
+  const dripMat = new THREE.MeshStandardMaterial({ color: 0x5c141f, roughness: 0.5, metalness: 0.18 });
+  for (let i = 0; i < 14; i++) {
+    const a = (i / 14) * Math.PI * 2;
+    const bump = new THREE.Mesh(new THREE.SphereGeometry(0.035 + Math.random() * 0.02, 8, 8), dripMat);
+    bump.position.set(Math.cos(a) * 0.29, Math.sin(a) * 0.29, 0.01);
+    sealGroup.add(bump);
+  }
+
+  const sealRingMat = new THREE.MeshStandardMaterial({ color: 0x4d1219, roughness: 0.45, metalness: 0.2 });
+  const sealRing = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.016, 12, 32), sealRingMat);
   sealRing.position.z = 0.041;
   sealGroup.add(sealRing);
 
@@ -428,8 +482,8 @@
   const cx = (bb.max.x + bb.min.x) / 2;
   const cy = (bb.max.y + bb.min.y) / 2;
   heartGeo.translate(-cx, -cy, 0);
-  const heartScale = 0.16;
-  const heartMat = new THREE.MeshStandardMaterial({ color: 0xf3e6ff, roughness: 0.4, metalness: 0.15 });
+  const heartScale = 0.15;
+  const heartMat = new THREE.MeshStandardMaterial({ color: 0xd9b877, roughness: 0.45, metalness: 0.35 });
   const heartMesh = new THREE.Mesh(heartGeo, heartMat);
   heartMesh.scale.set(heartScale, heartScale, heartScale);
   heartMesh.rotation.z = Math.PI;
@@ -438,10 +492,10 @@
 
   // invisible larger hit-target for easier tapping on mobile
   const hitTarget = new THREE.Mesh(
-    new THREE.CircleGeometry(0.42, 24),
+    new THREE.CircleGeometry(0.44, 24),
     new THREE.MeshBasicMaterial({ visible: false })
   );
-  hitTarget.position.z = 0.05;
+  hitTarget.position.z = 0.06;
   hitTarget.userData.isSeal = true;
   sealGroup.add(hitTarget);
 

@@ -56,7 +56,7 @@
 
   #canvas-container {
     width: min(320px, 82vw);
-    height: min(260px, 66vw);
+    height: min(360px, 92vw);
     cursor: pointer;
   }
 
@@ -276,14 +276,6 @@
     background: var(--paper);
     transition: top 0.22s cubic-bezier(.2,.9,.3,1.3), left 0.22s cubic-bezier(.2,.9,.3,1.3);
   }
-
-  .escape-count {
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--wax);
-    min-height: 18px;
-    font-style: italic;
-  }
 </style>
 </head>
 <body>
@@ -313,8 +305,6 @@
             <button class="choice" id="likeBtn" onclick="onLike()">좋아</button>
             <button class="choice" id="dislikeBtn" onpointerdown="dodgePointer(event, this)" onclick="moveButton(this); return false;">싫어</button>
           </div>
-
-          <div class="escape-count" id="escapeMsg"></div>
         </div>
 
         <div class="letter-content result" id="resultCard">
@@ -331,17 +321,7 @@
 
 <script>
   const likeBtn = document.getElementById('likeBtn');
-  const escapeMsg = document.getElementById('escapeMsg');
   let dodgeCount = 0;
-
-  const excuses = [
-    '어딜 도망가~',
-    '못 잡지롱',
-    '싫어는 선택지에 없어요.',
-    '헉 빨라',
-    '오늘은 "좋아"만 있는 날이에요.',
-    '포기하고 좋아 눌러줘요.'
-  ];
 
   function getRandomPosition(btn) {
     const rect = btn.getBoundingClientRect();
@@ -364,7 +344,6 @@
     btn.style.top = y + 'px';
 
     dodgeCount++;
-    escapeMsg.textContent = excuses[Math.min(dodgeCount - 1, excuses.length - 1)];
 
     const scale = Math.min(1 + dodgeCount * 0.06, 1.6);
     likeBtn.style.transform = `scale(${scale})`;
@@ -389,9 +368,9 @@
   const letter = document.getElementById('letter');
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
   camera.position.set(0, 0.05, 4.4);
-  camera.lookAt(0, 0, 0);
+  camera.lookAt(0, -0.15, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -559,11 +538,24 @@
   flapBack.rotation.y = Math.PI;
   flapHinge.add(flapBack);
 
-  const shadowGeo = new THREE.CircleGeometry(1.35, 32);
-  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 });
+  function createShadowTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(0,0,0,0.45)');
+    grad.addColorStop(0.6, 'rgba(0,0,0,0.22)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(canvas);
+  }
+  const shadowGeo = new THREE.PlaneGeometry(2.7, 2.7);
+  const shadowMat = new THREE.MeshBasicMaterial({ map: createShadowTexture(), transparent: true, depthWrite: false });
   const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
   shadowMesh.position.set(0, -halfH - 0.45, -0.3);
-  shadowMesh.scale.set(1, 0.34, 1);
+  shadowMesh.scale.set(1, 0.32, 1);
   scene.add(shadowMesh);
 
   // ---------- burgundy wax seal ----------
